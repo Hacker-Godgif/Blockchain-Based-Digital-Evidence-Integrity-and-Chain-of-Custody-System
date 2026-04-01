@@ -1,67 +1,26 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
+import Hero from "./components/Hero";
+import Features from "./components/Features";
+import HowItWorks from "./components/HowItWorks";
+import UploadSection from "./components/UploadSection";
+import Background3D from "./components/Background3D";
 import "./App.css";
 
 function App() {
-  const [file, setFile] = useState(null);
-  const [evidenceId, setEvidenceId] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
-
-  const handleUpload = async () => {
-    if (!file || !evidenceId) {
-      setMessage("Please enter Evidence ID and select a file");
-      setStatus("error");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("evidenceId", evidenceId);
-
-    try {
-      await axios.post("http://localhost:5000/upload", formData);
-      setMessage("Evidence uploaded successfully ✅");
-      setStatus("success");
-      setEvidenceId("");
-      setFile(null);
-    } catch (err) {
-      setMessage("Upload failed ❌");
-      setStatus("error");
-    }
-  };
-
   return (
-    <div className="container">
-      <div className="card">
-        <h2>Evidence Integrity System</h2>
-        <p className="subtitle">
-          Blockchain-based Digital Evidence Storage
-        </p>
+    <div className="app-container">
+      <Background3D />
+      
+      <main>
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <UploadSection />
+      </main>
 
-        <input
-          type="text"
-          placeholder="Enter Evidence ID"
-          value={evidenceId}
-          onChange={(e) => setEvidenceId(e.target.value)}
-        />
-
-        <input
-          type="file"
-          accept="image/*,video/*"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-
-        <button onClick={handleUpload}>Upload Evidence</button>
-
-        {message && (
-          <p className={`message ${status}`}>{message}</p>
-        )}
-
-        <div className="footer">
-          © Blockchain Forensics Project
-        </div>
-      </div>
+      <footer className="footer">
+        © {new Date().getFullYear()} Blockchain Digital Evidence Forensics. Tamper Detection Network.
+      </footer>
     </div>
   );
 }
